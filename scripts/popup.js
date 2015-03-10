@@ -30,10 +30,11 @@ for(index=chrome.extension.getBackgroundPage().RN.seen_item.length-1;index >= 0;
     one_li += '<span class="tag">' + item_time + '</span>\
       <a href="' + item_url + '">\
       <div class="item">\
-        <h4>' + item_title + '</h4>\
+        ' + item_title + '\
       </div>\
-      </a>';
-    one_li += '</div>';
+      </a>\
+      <span class="source">' + item_rss +'</span>';
+    one_li += '</div><br>';
     $("#newslist").append(one_li);
 }
 
