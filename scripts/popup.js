@@ -1,5 +1,6 @@
 $(".settings").hide();
 
+//switch over setting and news list
 $("#settings").click(function(){
   if ($(".settings").is(":visible")) {
     $(".settings").hide();
@@ -23,7 +24,11 @@ for(index=chrome.extension.getBackgroundPage().RN.seen_item.length-1;index >= 0;
     var item = chrome.extension.getBackgroundPage().RN.seen_item[index];
     item_title = item.title;
     item_url = item.url;
-    item_time = item.time;
+    if(item.time){
+      item_time = item.time.split(" ").slice(0,5).join(" "); // remove the meaningless word in time
+    }else{
+      item_time = " ";
+    }
     item_rss = item.rss;
     var one_li = '';
     one_li += '<div class="post read">';
@@ -69,3 +74,11 @@ function updateHeading(){
     }
     $("#heading").html(message);
 }
+
+//open the href in a new tab
+$(document).ready(function(){
+   $('body').on('click', 'a', function(){
+     chrome.tabs.create({url: $(this).attr('href')});
+     return false;
+   });
+});
