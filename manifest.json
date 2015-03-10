@@ -1,8 +1,8 @@
 {
-  "name": "RSS Alert",
-  "version": "0.3",
+  "name": "Feedy",
+  "version": "0.1",
   "manifest_version": 2,
-  "description": "Notifies user of new posts in RSS feeds",
+  "description": "Customize RSS feeds, get notifications and skim the news",
   "icons": {
     "128": "128.png",
     "48": "48.png",
@@ -10,7 +10,7 @@
   },
   "browser_action": {
     "default_icon":  "19.png",
-    "default_title": "RSS Alert",
+    "default_title": "Feedy",
     "default_popup": "popup.html"
   },
   "background":{
@@ -18,7 +18,7 @@
       "page" : "background.html"
   } ,
   "content_security_policy": "script-src 'self' https://www.google.com https://ssl.google-analytics.com; object-src 'self'",
-  "homepage_url": "https://github.com/adamzr/RSS-Alert",
+  "homepage_url": "https://github.com/SJTUCat/Feedy",
   "permissions": [
     "notifications",
     "https://www.google.com/*",

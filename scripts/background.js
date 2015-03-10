@@ -12,11 +12,19 @@ RN.MAX_SEEN_LENGTH = 1000;
 google.load("feeds", "1");
 
 //Load the list of posts we've seen
-chrome.storage.sync.get("seen", function(items){
-    if(items.seen){
-        RN.seen = items.seen;
+chrome.storage.sync.get("seen_url", function(items){
+    if(items.seen_url){
+        RN.seen_url = items.seen_url;
     } else {
-        RN.seen = [];
+        RN.seen_url = [];
+    }
+})
+
+chrome.storage.sync.get("seen_item", function(items){
+    if(items.seen_item){
+        RN.seen_item = items.seen_item;
+    } else {
+        RN.seen_item = [];
     }
 })
 
@@ -24,12 +32,15 @@ chrome.storage.sync.get("seen", function(items){
 RN.notificationToUrl = {};
 
 //Add a post to the list of posts we've seen
-function addSeen(id){
-    RN.seen.push(id);
-    while(JSON.stringify(RN.seen).length > chrome.storage.sync.QUOTA_BYTES_PER_ITEM){
-        RN.seen.shift();
+function addSeen(item){
+    RN.seen_url.push(item.url);
+    RN.seen_item.push(item);
+    while(JSON.stringify(RN.seen_url).length > chrome.storage.sync.QUOTA_BYTES_PER_ITEM){
+        RN.seen_url.shift();
+        RN.seen_item.shift();
     }
-    chrome.storage.sync.set({"seen": RN.seen});
+    chrome.storage.sync.set({"seen_url": RN.seen_url});
+    chrome.storage.sync.set({"seen_item": RN.seen_item});
 }
 
 //Load a list of feed URLs we're monitoring
@@ -79,9 +90,14 @@ function onFeedLoad(result){
         for (var i = 0; i < result.feed.entries.length; i++) {
             var entry = result.feed.entries[i];
             //If we have not seen this post
-            if(RN.seen.indexOf(entry.link) < 0){
+            if(RN.seen_url.indexOf(entry.link) < 0){
                 sendNotification(entry, result.feed);
-                addSeen(entry.link);
+                var item = {};
+                item.rss = result.feed.title;
+                item.title = entry.title;
+                item.url = entry.link;
+                item.time = entry.publishedDate;
+                addSeen(item);
             }
         }
     }
