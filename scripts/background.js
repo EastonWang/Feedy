@@ -73,6 +73,7 @@ function addFeed(feedURL){
         RN.feedURLs.splice(0, RN.feedURLs.length - 100000);
     }
     chrome.storage.sync.set({"feedURLs": RN.feedURLs});
+    loadFeed();
 }
 
 //Remove a feed from the list of feeds we are monitoring
