@@ -5,10 +5,12 @@ $("#settings").click(function(){
   if ($(".settings").is(":visible")) {
     $(".settings").hide();
     $(".news").show();
+    $("#button_display").html("Settings");
   }
   else {
     $(".settings").show();
     $(".news").hide();
+    $("#button_display").html("Return");
   }
 });
 
